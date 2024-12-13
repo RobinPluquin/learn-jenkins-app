@@ -19,5 +19,19 @@ pipeline {
                 sh 'ls -la'
             }
         }
+
+        stage('Test') {
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reusNode true
+                }
+            }
+            
+            steps {
+                sh 'test -f build/index.html'
+                sh 'npm test'
+            }
+        }
     }
 }
